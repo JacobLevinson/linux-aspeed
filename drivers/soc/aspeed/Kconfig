@@ -69,6 +69,29 @@ config ASPEED_SBC
 	  Say yes to provide information about the secure boot controller in
 	  debugfs.
 
+config ASPEED_ESPI
+        tristate "ASPEED eSPI slave driver"
+        select AST2600_ESPI if MACH_ASPEED_G6
+        default n
+        help
+          Enable driver support for the Aspeed eSPI engine. The eSPI engine
+          plays as a slave device in BMC to communicate with the Host over
+          the eSPI interface. The four eSPI channels, namely peripheral,
+          virtual wire, out-of-band, and flash are supported.
+
+config AST2600_ESPI
+        tristate
+        depends on ASPEED_ESPI
+        help
+          Enable driver support for Aspeed AST2600 eSPI engine.
+
+config ASPEED_LPC_PCC
+        tristate "Aspeed Post Code Capture support"
+        depends on ARCH_ASPEED && REGMAP && MFD_SYSCON
+        help
+          Provides a driver to control the LPC PCC interface,
+          allowing the BMC to snoop data bytes written by the
+          the host to an arbitrary LPC I/O port.
 endmenu
 
 endif

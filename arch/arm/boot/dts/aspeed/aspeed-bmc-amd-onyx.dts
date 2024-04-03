@@ -51,6 +51,11 @@
 			compatible = "shared-dma-pool";
 			reusable;
 		};
+
+		pcc_memory: pccbuffer {
+                        no-map;
+                        reg = <0xE0000000 0x00001000>; /* 4K */
+                };
 	};
 
 	iio-hwmon-adc121c {
@@ -561,6 +566,13 @@
 	};
 };
 
+&espi {
+	status = "okay";
+	perif-dma-mode;
+	oob-dma-mode;
+	flash-dma-mode;
+};
+
 &gpio0 {
 	gpio-line-names =
 	/*A0-A7*/	"","","","","","","","",
@@ -602,6 +614,17 @@
 
 &lpc_ctrl {
 	status = "okay";
+};
+
+&lpc_pcc {
+        port-addr = <0x80>;
+        dma-mode;
+        memory-region = <&pcc_memory>;
+        rec-mode = <0x1>;
+        port-addr-hbits-select = <0x1>;
+        port-addr-xbits = <0x3>;
+
+        status = "okay";
 };
 
 &kcs3 {
