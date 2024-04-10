@@ -619,6 +619,7 @@
 &lpc_pcc {
         port-addr = <0x80>;
         dma-mode;
+        A2600-15;
         memory-region = <&pcc_memory>;
         rec-mode = <0x1>;
         port-addr-hbits-select = <0x1>;
