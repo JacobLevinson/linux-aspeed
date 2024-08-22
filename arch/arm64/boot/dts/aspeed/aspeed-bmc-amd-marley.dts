@@ -48,6 +48,18 @@
 			reg = <0x4 0x30080000 0x0 0x1000000>;
 			no-map;
 		};
+
+		video_engine_memory: jpegbuffer {
+			size = <0x02000000>;	/* 32M */
+			alignment = <0x01000000>;
+			compatible = "shared-dma-pool";
+			reusable;
+		};
+
+		pcc_memory: pccbuffer {
+                        reg = <0xE0000000 0x00001000>; /* 4K */
+			no-map;
+                };
 	};
 };
 
@@ -131,6 +143,17 @@
 		spi-tx-bus-width = <2>;
 		spi-rx-bus-width = <2>;
 	};
+};
+
+// eSPI Virtual UART - 0x3F8
+&vuart1 {
+	status = "okay";
+};
+
+//Host console
+&uart1 {
+	//Host console
+	status = "okay";
 };
 
 //BMC Console
@@ -382,4 +405,32 @@
                 /*AC0-AC7*/     "P0_PRESENT_L","P0_MGMT_MON_RSMRST_L","P0_MGMT_MON_POST_COMPLETE","P0_MGMT_MON_THERMTRIP_L","P0_MGMT_MON_PWR_GOOD","P0_ASSERT_RSMRST","P0_MGMT_SOC_RESET_L","P0_MGMT_MON_PSP_SOFT_FUSE_NOTIFY",
                 /*AD0-AD7*/     "P0_I3C_APML_ALERT_L","MGMT_HDT_SEL","SCM_JTAG_DBREQ","JTAG_TRST_N","P1_PRESENT_L","","","",
                 /*AE0-AE7*/     "P0_MGMT_ASSERT_RST_BTN_L","P0_MGMT_ASSERT_PWR_BTN_L","P0_MGMT_MON_RST_BTN_L","P0_MGMT_MON_PWR_BTN_L","","","","";
+};
+
+&video0 {
+	status = "okay";
+	memory-region = <&video_engine_memory>;
+};
+
+&espi0 {
+	status = "okay";
+	perif-dma-mode;
+	oob-dma-mode;
+	flash-dma-mode;
+};
+
+&lpc0_pcc {
+        port-addr = <0x80>;
+        dma-mode;
+        A2600-15;
+        memory-region = <&pcc_memory>;
+        rec-mode = <0x1>;
+        port-addr-hbits-select = <0x1>;
+        port-addr-xbits = <0x3>;
+
+        status = "okay";
+};
+
+&lpc0_uart_routing {
+	status = "okay";
 };
