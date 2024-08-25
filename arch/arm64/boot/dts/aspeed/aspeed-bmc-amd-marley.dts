@@ -163,6 +163,20 @@
 
 // I2C configs
 
+&i2c2 {
+        // P0 APML
+        status = "okay";
+        bus-frequency = <400000>;
+        sbrmi@3c {
+                compatible = "amd,sbrmi";
+                reg = <0x3c>;
+        };
+        sbtsi@4c {
+                compatible = "amd,sbtsi";
+                reg = <0x4c>;
+        };
+};
+
 &i2c7 {
 	status = "okay";
 	scmeeprom@50 {
