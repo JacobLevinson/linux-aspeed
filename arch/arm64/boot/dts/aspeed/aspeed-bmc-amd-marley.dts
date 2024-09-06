@@ -49,16 +49,11 @@
 			no-map;
 		};
 
-		video_engine_memory: jpegbuffer {
-			size = <0x02000000>;	/* 32M */
-			alignment = <0x01000000>;
+		video_engine_memory0: jpegbuffer {
+			size = <0x0 0x04000000>;	/* 64M */
+			alignment = <0x0 0x00010000>;
 			compatible = "shared-dma-pool";
 			reusable;
-		};
-
-		pcc_memory: pccbuffer {
-			reg = <0xE0000000 0x00001000>; /* 4K */
-			no-map;
 		};
 	};
 };
@@ -434,7 +429,7 @@
 
 &video0 {
 	status = "okay";
-	memory-region = <&video_engine_memory>;
+	memory-region = <&video_engine_memory0>;
 };
 
 &espi0 {
@@ -448,7 +443,6 @@
 	port-addr = <0x80>;
 	dma-mode;
 	A2600-15;
-	memory-region = <&pcc_memory>;
 	rec-mode = <0x1>;
 	port-addr-hbits-select = <0x1>;
 	port-addr-xbits = <0x3>;
@@ -458,4 +452,8 @@
 
 &lpc0_uart_routing {
 	status = "okay";
+};
+
+&jtag0 {
+	 status = "okay";
 };
